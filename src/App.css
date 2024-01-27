@@ -24,6 +24,10 @@ h1 {
   color: #333;
 }
 
+.search-container {
+  margin-top: 20px;
+}
+
 input {
   padding: 15px;
   font-size: 16px;
@@ -49,9 +53,8 @@ button:hover {
   background-color: #45a049;
 }
 
-div > p {
-  margin: 15px 0;
-  color: #555;
+.location-info {
+  margin-top: 20px;
 }
 
 /* Google Map styles */
