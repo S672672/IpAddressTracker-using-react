@@ -1,35 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
+import "./App.css"
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-function App() {
-  const [count, setCount] = useState(0)
+const containerStyle = {
+  width: '100%',
+  height: '300px',
+  marginTop: '20px',
+};
+
+export default function App() {
+  const [ipAddress, setIpAddress] = useState('');
+  const [locationData, setLocationData] = useState(null);
+  const mapRef = useRef(null);
+
+  const handleInputChange = (e) => {
+    setIpAddress(e.target.value);
+  };
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`http://api.ipstack.com/${ipAddress}?access_key=YOUR_API_KEY`);
+      setLocationData(response.data);
+
+      // Update the map position
+      if (mapRef.current) {
+        const { latitude, longitude } = response.data;
+        mapRef.current.panTo({ lat: latitude, lng: longitude });
+      }
+    } catch (error) {
+      console.error('Error fetching location data:', error);
+    }
+  };
 
   return (
-    <>
+    <div className="App">
+      <h1>IP Address Tracker</h1>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <input
+          type="text"
+          placeholder="Enter IP address"
+          value={ipAddress}
+          onChange={handleInputChange}
+        />
+        <button onClick={handleSearch}>Search</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      {locationData && (
+        <div>
+          <h2>Location Information:</h2>
+          <p>IP Address: {locationData.ip}</p>
+          <p>Country: {locationData.country_name}</p>
+          <p>Region: {locationData.region_name}</p>
+          <p>City: {locationData.city}</p>
+          <p>Latitude: {locationData.latitude}</p>
+          <p>Longitude: {locationData.longitude}</p>
+        </div>
+      )}
+      <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={{ lat: 0, lng: 0 }}
+          zoom={2}
+          ref={mapRef}
+        >
+          {locationData && (
+            <Marker
+              position={{ lat: locationData.latitude, lng: locationData.longitude }}
+            />
+          )}
+        </GoogleMap>
+      </LoadScript>
+    </div>
+  );
 }
-
-export default App
