@@ -1,47 +1,79 @@
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f8f8f8;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(to right, #2c3e50, #3498db);
+  color: #ecf0f1;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100vw;
 }
 
 .App {
   text-align: center;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  max-width: 600px;
+  padding: 60px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  max-width: 50vw; 
   width: 100%;
   margin: auto;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #ff5733;
+  background: linear-gradient(45deg, #ff5733, #ffda33, #ff5733, #ffda33, #ff5733, #ffda33);
+  background-size: 300% 300%;
+  animation: gradientAnimation 3s infinite;
+  transition: box-shadow 0.3s ease;
+}
+
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.App:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
-  color: #333;
+  color: #3498db;
 }
 
 .search-container {
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 input {
   padding: 15px;
   font-size: 16px;
   margin-right: 10px;
-  border: 1px solid #ddd;
+  border: none;
   border-radius: 5px;
   width: 70%;
   box-sizing: border-box;
+  background-color: #ecf0f1;
+  color: #333;
+  outline: none;
 }
 
 button {
   padding: 15px 20px;
   font-size: 16px;
-  background-color: #4caf50;
+  background-color: #3498db;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -50,11 +82,26 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #2980b9;
 }
 
 .location-info {
   margin-top: 20px;
+  text-align: left;
+  padding: 20px;
+  background-color: #ecf0f1;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.location-info h2 {
+  color: #3498db;
+  margin-bottom: 15px;
+}
+
+.location-info p {
+  color: #333;
+  margin: 10px 0;
 }
 
 /* Google Map styles */
@@ -63,4 +110,5 @@ button:hover {
   height: 300px;
   border-radius: 5px;
   margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

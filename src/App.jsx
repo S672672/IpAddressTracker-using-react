@@ -9,7 +9,7 @@ const containerStyle = {
   marginTop: '20px',
 };
 
-function App() {
+export default function App() {
   const [ipAddress, setIpAddress] = useState('');
   const [locationData, setLocationData] = useState(null);
   const [markerPosition, setMarkerPosition] = useState(null);
@@ -21,12 +21,11 @@ function App() {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`http://api.ipstack.com/${ipAddress}?access_key=YOUR_API_KEY`);
+      const response = await axios.get(`http://api.ipstack.com/${ipAddress}?access_key=5e151c69-ee76-422e-b19d-fd29111ccbd8`);
       const { latitude, longitude } = response.data;
 
       setLocationData(response.data);
 
-      // Update the map position and marker
       if (mapRef.current) {
         mapRef.current.panTo({ lat: latitude, lng: longitude });
         setMarkerPosition({ lat: latitude, lng: longitude });
@@ -59,7 +58,7 @@ function App() {
           <p>Longitude: {locationData.longitude}</p>
         </div>
       )}
-      <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+      <LoadScript googleMapsApiKey="AIzaSyA6OEzYJzuK9SeJ08pYB_9QTh6i_UtQj5E">
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={markerPosition || { lat: 0, lng: 0 }}
@@ -72,5 +71,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
